@@ -80,7 +80,9 @@ describe("Cadastro Page", () => {
     const value = "Teste";
     setValorInput(inputSenha, value);
 
-    const inputConfirmacao = screen.getByPlaceholderText("Confirmação de Senha");
+    const inputConfirmacao = screen.getByPlaceholderText(
+      "Confirmação de Senha"
+    );
     const mensagemDeValidacao = "Senhas não conferem";
     validaErroApresentadoEmTela(inputConfirmacao, mensagemDeValidacao);
     validaErroNaoApresentadoEmTela(
@@ -95,7 +97,9 @@ describe("Cadastro Page", () => {
     const nome = screen.getByPlaceholderText("Nome");
     const email = screen.getByPlaceholderText("e-mail");
     const senha = screen.getByPlaceholderText("Senha");
-    const confirmacaoSenha = screen.getByPlaceholderText("Confirmação de Senha");
+    const confirmacaoSenha = screen.getByPlaceholderText(
+      "Confirmação de Senha"
+    );
     const codigoAcesso = screen.getByPlaceholderText("Código de Acesso");
     const botao = screen.getByText("Cadastrar");
     const dados = {
@@ -122,7 +126,9 @@ describe("Cadastro Page", () => {
     const nome = screen.getByPlaceholderText("Nome");
     const email = screen.getByPlaceholderText("e-mail");
     const senha = screen.getByPlaceholderText("Senha");
-    const confirmacaoSenha = screen.getByPlaceholderText("Confirmação de Senha");
+    const confirmacaoSenha = screen.getByPlaceholderText(
+      "Confirmação de Senha"
+    );
     const codigoAcesso = screen.getByPlaceholderText("Código de Acesso");
     const botao = screen.getByText("Cadastrar");
     const dados = {
@@ -148,33 +154,37 @@ describe("Cadastro Page", () => {
   });
 
   it("deve apresentar os erros de validação para o usuário, caso a API retorne erro", async () => {
-    // // setup
-    // jest.spyOn(axios, "post").mockRejectedValue(new Error('Erro de validação'));
-    // const nome = screen.getByPlaceholderText("Nome");
-    // const email = screen.getByPlaceholderText("e-mail");
-    // const senha = screen.getByPlaceholderText("Senha");
-    // const confirmacaoSenha = screen.getByPlaceholderText("Confirmação de Senha");
-    // const codigoAcesso = screen.getByPlaceholderText("Código de Acesso");
-    // const botao = screen.getByText("Cadastrar");
-    // const dados = {
-    //   nome: faker.name.firstName(),
-    //   email: faker.internet.email(),
-    //   senha: "S3nh@!123",
-    //   codigoAcesso: faker.lorem.paragraph(),
-    // };
+    // setup
+    jest.spyOn(axios, "post").mockRejectedValue(new Error("Erro de validação"));
+    const nome = screen.getByPlaceholderText("Nome");
+    const email = screen.getByPlaceholderText("e-mail");
+    const senha = screen.getByPlaceholderText("Senha");
+    const confirmacaoSenha = screen.getByPlaceholderText(
+      "Confirmação de Senha"
+    );
+    const codigoAcesso = screen.getByPlaceholderText("Código de Acesso");
+    const botao = screen.getByText("Cadastrar");
+    const dados = {
+      nome: faker.name.firstName(),
+      email: faker.internet.email(),
+      senha: "S3nh@!123",
+      codigoAcesso: faker.lorem.paragraph(),
+    };
 
-    // // construcao
-    // setValorInput(nome, dados.nome);
-    // setValorInput(email, dados.email);
-    // setValorInput(senha, dados.senha);
-    // setValorInput(confirmacaoSenha, dados.senha);
-    // setValorInput(codigoAcesso, dados.codigoAcesso);
-    // botao.click();
+    // construcao
+    setValorInput(nome, dados.nome);
+    setValorInput(email, dados.email);
+    setValorInput(senha, dados.senha);
+    setValorInput(confirmacaoSenha, dados.senha);
+    setValorInput(codigoAcesso, dados.codigoAcesso);
+    botao.click();
 
-    // // asserts
-    // expect(axios.post).toHaveBeenCalledWith(
-    //   new Error('Erro de validação'),
-    //   dados
-    // );
+    // asserts
+    expect(axios.post).toHaveBeenCalledWith(
+      expect.stringContaining("/auth/cadastrar"),
+      dados
+    );
+
+    expect(await screen.findByText("Erro de validação")).toBeInTheDocument();
   });
 });
